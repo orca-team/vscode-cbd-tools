@@ -1,0 +1,65 @@
+{
+  "name": "cbd-tools",
+  "displayName": "cbd-tools",
+  "description": "Toolkit for cbd-framework",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.42.0"
+  },
+  "icon": "assets/logo.png",
+  "publisher": "kam",
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:cbd.createTemplate"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "cbd.createTemplate",
+        "title": "新建(基于CBD模板)"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "cbd.createTemplate",
+          "group": "2_workspace"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run esbuild-base -- --minify",
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
+    "esbuild": "npm run esbuild-base -- --sourcemap",
+    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+    "compile": "tsc -p ./",
+    "lint": "eslint src --ext ts",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@orca-fe/eslint-config": "^2.3.3",
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.13.4",
+    "@types/semver": "^7.5.8",
+    "@types/vscode": "^1.97.0",
+    "@typescript-eslint/eslint-plugin": "^8.24.1",
+    "@typescript-eslint/parser": "^8.24.1",
+    "esbuild": "^0.25.0",
+    "eslint": "^8.57.1",
+    "glob": "^11.0.1",
+    "mocha": "^11.1.0",
+    "typescript": "^5.7.3",
+    "vscode-test": "^1.6.1"
+  },
+  "dependencies": {
+    "change-case": "^5.4.4",
+    "semver": "^7.7.1"
+  }
+}
