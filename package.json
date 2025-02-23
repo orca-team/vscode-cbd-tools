@@ -11,6 +11,10 @@
   "categories": [
     "Other"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NicoKam/vscode-cbd-tools"
+  },
   "activationEvents": [
     "onCommand:cbd.createTemplate"
   ],
