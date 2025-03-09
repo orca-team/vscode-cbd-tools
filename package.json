@@ -45,6 +45,7 @@
     }
   },
   "scripts": {
+    "c": "changeset",
     "vscode:prepublish": "npm run esbuild-base -- --minify",
     "vscode:package": "vsce package",
     "deploy": "vsce publish --no-dependencies  -p $VSCODE_MARKETPLACE_TOKEN",
@@ -60,6 +61,7 @@
     "prepare": "husky"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.28.1",
     "@orca-fe/eslint-config": "^2.2.0",
     "@types/glob": "^7.2.0",
     "@types/mocha": "^7.0.2",
