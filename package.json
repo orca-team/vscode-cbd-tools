@@ -15,27 +15,37 @@
     "type": "git",
     "url": "https://github.com/NicoKam/vscode-cbd-tools"
   },
-  "activationEvents": [
-    "onCommand:cbd.createTemplate"
-  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "cbd.createTemplate",
-        "title": "新建(基于CBD模板)"
+        "command": "cbd-tools.create-template",
+        "title": "使用 CBD 模板创建"
+      },
+      {
+        "command": "cbd-tools.quick-jump-to-js",
+        "title": "快速跳转至 TS / JS 文件"
+      },
+      {
+        "command": "cbd-tools.quick-jump-to-css",
+        "title": "快速跳转至 CSS / LESS 文件"
+      },
+      {
+        "command": "cbd-tools.quick-jump-to-vue",
+        "title": "快速跳转至 VUE 文件"
       }
     ],
     "menus": {
       "explorer/context": [
         {
-          "command": "cbd.createTemplate",
+          "command": "cbd-tools.create-template",
           "group": "2_workspace"
         }
       ]
     }
   },
   "scripts": {
+    "c": "changeset",
     "vscode:prepublish": "npm run esbuild-base -- --minify",
     "vscode:package": "vsce package",
     "deploy": "vsce publish --no-dependencies  -p $VSCODE_MARKETPLACE_TOKEN",
@@ -51,6 +61,7 @@
     "prepare": "husky"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.28.1",
     "@orca-fe/eslint-config": "^2.2.0",
     "@types/glob": "^7.2.0",
     "@types/mocha": "^7.0.2",
@@ -72,6 +83,7 @@
   },
   "dependencies": {
     "change-case": "^4.1.2",
+    "mkdirp": "^3.0.1",
     "semver": "^7.3.8"
   },
   "lint-staged": {
