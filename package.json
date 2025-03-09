@@ -16,6 +16,12 @@
     "url": "https://github.com/NicoKam/vscode-cbd-tools"
   },
   "main": "./out/extension.js",
+  "activationEvents": [
+    "onCommand:cbd-tools.create-template",
+    "onCommand:cbd-tools.quick-jump-to-js",
+    "onCommand:cbd-tools.quick-jump-to-css",
+    "onCommand:cbd-tools.quick-jump-to-vue"
+  ],
   "contributes": {
     "commands": [
       {
