@@ -3,6 +3,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import * as mkdirp from 'mkdirp';
 import * as changeCase from 'change-case';
+import { TEMPLATE_ROOT } from '../const';
 
 export const ERROR_CODES = {
   EXISTS: 'EXISTS',
@@ -10,7 +11,6 @@ export const ERROR_CODES = {
 
 const cwd = process.cwd();
 
-const TEMPLATE_ROOT = path.resolve(__dirname, '../../templates');
 
 // 保留文件（不参与模板生成）
 const RESERVED_FILES = ['meta.json'];
