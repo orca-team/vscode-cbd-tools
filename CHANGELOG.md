@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.0.4
+
+### Patch Changes
+
+- 4be53b0: fix: vscodeignore 排除的异常
+
 ## 2.0.3
 
 ### Patch Changes
