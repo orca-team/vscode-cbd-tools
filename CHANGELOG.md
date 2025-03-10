@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.0.1
+
+### Patch Changes
+
+- 725d72d: fix: TEMPLATE_ROOT 引用路径错误
+
 ## 2.0.0
 
 ### Major Changes
