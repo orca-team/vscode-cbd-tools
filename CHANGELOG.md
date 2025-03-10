@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.0.2
+
+### Patch Changes
+
+- 2c78a0d: chore: 完善 README 并添加快捷键
+
 ## 2.0.1
 
 ### Patch Changes
