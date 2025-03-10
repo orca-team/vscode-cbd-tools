@@ -197,9 +197,9 @@ export const createTemplate = async (_dir = cwd, templateName = '', options: Cre
    * 如果与目录名称一致，视为不创建目录，否则创建目录
    */
   if (useAdditionalDirectory === true) {
-    dir = path.join(name);
+    dir = path.join(_dir, name);
   } else if (useAdditionalDirectory !== false && name != null && name !== baseName) {
-    dir = path.join(name);
+    dir = path.join(_dir, name);
   }
 
   const templateFiles = getTemplateFiles(templateName) || [];
