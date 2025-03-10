@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.0.3
+
+### Patch Changes
+
+- 9b20aee: fix: dir path
+
 ## 2.0.2
 
 ### Patch Changes
