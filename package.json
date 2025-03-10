@@ -48,7 +48,21 @@
           "group": "2_workspace"
         }
       ]
-    }
+    },
+    "keybindings": [
+      {
+        "command": "cbd-tools.quick-jump-to-js",
+        "key": "ctrl+k ctrl+j",
+        "mac": "cmd+k cmd+j",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "cbd-tools.quick-jump-to-css",
+        "key": "ctrl+k ctrl+l",
+        "mac": "cmd+k cmd+l",
+        "when": "editorTextFocus"
+      }
+    ]
   },
   "scripts": {
     "c": "changeset",
