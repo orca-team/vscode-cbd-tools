@@ -58,8 +58,8 @@ type TemplateFileType = {
  * @param templateName 模板名称
  * @returns
  */
-export function getTemplateFiles(templateName: string) {
-  const templatePath = path.resolve(TEMPLATE_ROOT, templateName);
+export function getTemplateFiles(templateName: string, templateRootName: string = TEMPLATE_ROOT) {
+  const templatePath = path.resolve(templateRootName, templateName);
   if (!checkIsTemplate(templatePath)) {
     console.error('模板不存在');
     return null;

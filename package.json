@@ -29,6 +29,10 @@
         "title": "使用 CBD 模板创建"
       },
       {
+        "command": "cbd-tools.create-custom-template",
+        "title": "使用当前项目的自定义模板创建"
+      },
+      {
         "command": "cbd-tools.quick-jump-to-js",
         "title": "快速跳转至 TS / JS 文件"
       },
@@ -45,6 +49,10 @@
       "explorer/context": [
         {
           "command": "cbd-tools.create-template",
+          "group": "2_workspace"
+        },
+        {
+          "command": "cbd-tools.create-custom-template",
           "group": "2_workspace"
         }
       ]
