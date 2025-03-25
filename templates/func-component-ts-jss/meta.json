@@ -1,0 +1,5 @@
+{
+  "type": "component(with @orca-fe/simple-jss)",
+  "order": 8,
+  "description": "函数组件（基于 @orca-fe/simple-jss）"
+}

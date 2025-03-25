@@ -3,14 +3,19 @@ import * as path from 'path';
 import * as fs from 'fs';
 import * as mkdirp from 'mkdirp';
 import * as changeCase from 'change-case';
+import * as vscode from 'vscode';
 import { TEMPLATE_ROOT } from '../const';
 
+// Update ERROR_CODES to include CANCELED
 export const ERROR_CODES = {
   EXISTS: 'EXISTS',
+  CANCELED: 'CANCELED',
 };
 
 const cwd = process.cwd();
 
+// 默认自定义模板目录名称
+const DEFAULT_CUSTOM_TEMPLATE_DIR = 'cbd-templates';
 
 // 保留文件（不参与模板生成）
 const RESERVED_FILES = ['meta.json'];
@@ -58,8 +63,8 @@ type TemplateFileType = {
  * @param templateName 模板名称
  * @returns
  */
-export function getTemplateFiles(templateName: string) {
-  const templatePath = path.resolve(TEMPLATE_ROOT, templateName);
+export function getTemplateFiles(templateName: string, templateRootName: string = TEMPLATE_ROOT) {
+  const templatePath = path.resolve(templateRootName, templateName);
   if (!checkIsTemplate(templatePath)) {
     console.error('模板不存在');
     return null;
@@ -103,10 +108,16 @@ export interface TemplateConfig {
 
   /** 模板文件列表 */
   files: Array<TemplateFileType>;
+
+  /** 模板来源 */
+  source?: 'builtin' | 'custom';
+
+  /** 模板根目录 */
+  rootDir?: string;
 }
 
 /**
- * 扫描所有模板
+ * 扫描所有内置模板
  */
 function scanTemplates() {
   const templates = fs.readdirSync(TEMPLATE_ROOT);
@@ -124,6 +135,8 @@ function scanTemplates() {
         type: meta.type,
         order: meta.order,
         files: getTemplateFiles(templateName) || [],
+        source: 'builtin',
+        rootDir: TEMPLATE_ROOT,
       });
     } catch (error) {
       /* 跳过处理出错的模板 */
@@ -132,6 +145,116 @@ function scanTemplates() {
   }
 
   return result;
+}
+
+/**
+ * 获取项目根目录
+ * @param currentPath 当前路径
+ * @returns 项目根目录路径
+ */
+export function getProjectRoot(currentPath: string): string | null {
+  // 首先尝试获取 VSCode 工作空间的根目录
+  if (vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders.length > 0) {
+    return vscode.workspace.workspaceFolders[0].uri.fsPath;
+  }
+  return null;
+}
+
+/**
+ * 获取自定义模板目录路径
+ * @param projectRoot 项目根目录
+ * @returns 自定义模板目录路径
+ */
+export function getCustomTemplateDir(projectRoot: string): string {
+  // 默认模板目录
+  let customTemplateDir = DEFAULT_CUSTOM_TEMPLATE_DIR;
+
+  // 尝试读取配置文件
+  const configPath = path.join(projectRoot, 'cbd-tools.json');
+  if (fs.existsSync(configPath)) {
+    try {
+      const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+      if (config.customTemplateDir) {
+        // eslint-disable-next-line prefer-destructuring
+        customTemplateDir = config.customTemplateDir;
+      }
+    } catch (error) {
+      console.error('读取配置文件失败:', error);
+    }
+  }
+
+  return path.join(projectRoot, customTemplateDir);
+}
+
+/**
+ * 扫描自定义模板
+ * @param customTemplateDir 自定义模板目录路径
+ * @returns 模板配置列表
+ */
+export function scanCustomTemplates(customTemplateDir: string): TemplateConfig[] {
+  if (!fs.existsSync(customTemplateDir)) {
+    return [];
+  }
+
+  try {
+    const templates = fs.readdirSync(customTemplateDir);
+    const result: TemplateConfig[] = [];
+
+    for (const templateName of templates) {
+      try {
+        const templatePath = path.join(customTemplateDir, templateName);
+        const stat = fs.statSync(templatePath);
+
+        if (!stat.isDirectory()) {
+          continue;
+        }
+
+        const metaPath = path.join(templatePath, 'meta.json');
+        if (!fs.existsSync(metaPath)) {
+          continue;
+        }
+
+        const meta = JSON.parse(fs.readFileSync(metaPath, 'utf-8'));
+        result.push({
+          name: templateName,
+          description: meta.description,
+          type: meta.type || 'component', // 默认为 component 类型
+          order: meta.order || 0,
+          files: getTemplateFiles(templateName, customTemplateDir) || [],
+          source: 'custom',
+          rootDir: customTemplateDir,
+        });
+      } catch (error) {
+        console.error(`处理自定义模板 ${templateName} 时发生错误:`, error);
+      }
+    }
+
+    return result;
+  } catch (error) {
+    console.error('扫描自定义模板目录失败:', error);
+    return [];
+  }
+}
+
+/**
+ * 获取所有可用模板（内置 + 自定义）
+ * @param currentPath 当前路径
+ * @returns 所有可用模板
+ */
+export function getAllTemplates(currentPath: string): TemplateConfig[] {
+  // 获取内置模板
+  const builtinTemplates = scanTemplates();
+
+  // 获取自定义模板
+  const projectRoot = getProjectRoot(currentPath);
+  if (!projectRoot) {
+    return builtinTemplates;
+  }
+
+  const customTemplateDir = getCustomTemplateDir(projectRoot);
+  const customTemplates = scanCustomTemplates(customTemplateDir);
+
+  return [...builtinTemplates, ...customTemplates];
 }
 
 const defaultTemplateList = scanTemplates();
@@ -186,8 +309,9 @@ export interface CreateTemplateOptions {
  * @param {string} dir 创建模板的根目录
  * @param {string} templateName 模板类型
  * @param {Object} options 其它选项
+ * @param {string} templateRootDir 模板根目录
  */
-export const createTemplate = async (_dir = cwd, templateName = '', options: CreateTemplateOptions = {}) => {
+export const createTemplate = async (_dir = cwd, templateName = '', options: CreateTemplateOptions = {}, templateRootDir = TEMPLATE_ROOT) => {
   let dir = _dir;
   const { name: baseName } = path.parse(dir);
   const { name = baseName, dir: useAdditionalDirectory, f: forceCreate } = options;
@@ -202,7 +326,7 @@ export const createTemplate = async (_dir = cwd, templateName = '', options: Cre
     dir = path.join(_dir, name);
   }
 
-  const templateFiles = getTemplateFiles(templateName) || [];
+  const templateFiles = getTemplateFiles(templateName, templateRootDir) || [];
 
   // 对模板内容进行翻译
   const transformedTemplateFiles = templateFiles.map(({ filename, content, ...other }) => {
@@ -211,16 +335,43 @@ export const createTemplate = async (_dir = cwd, templateName = '', options: Cre
     return { ...other, filename: newFilename, content: newContent };
   });
 
-  const exists = transformedTemplateFiles.find(({ filename }) => fs.existsSync(path.resolve(dir, filename)));
-  console.log(transformedTemplateFiles, exists);
-  if (exists && !forceCreate) {
-    console.error('目录中存在同名文件，无法生成');
-    return {
-      success: false,
-      code: ERROR_CODES.EXISTS,
-      message: '目录中存在同名文件，未做覆盖',
-    };
+  // 检查是否存在同名文件
+  const existingFiles = transformedTemplateFiles
+    .filter(({ filename }) => fs.existsSync(path.resolve(dir, filename)))
+    .map(({ filename }) => filename);
+
+  // 如果存在同名文件且未指定强制覆盖，则弹出确认对话框
+  if (existingFiles.length > 0 && !forceCreate) {
+    console.log('发现同名文件:', existingFiles);
+
+    // 构建提示信息
+    const fileList = existingFiles.length <= 3
+      ? existingFiles.join(', ')
+      : `${existingFiles.slice(0, 3).join(', ')} 等 ${existingFiles.length} 个文件`;
+
+    const message = `目录中存在同名文件: ${fileList}，是否覆盖？`;
+
+    // 弹出确认对话框
+    const result = await vscode.window.showWarningMessage(
+      message,
+      { modal: true },
+      'Yes',
+    );
+
+    if (result !== 'Yes') {
+      console.log('用户取消了操作');
+      return {
+        success: false,
+        code: ERROR_CODES.CANCELED,
+        message: '操作已取消',
+      };
+    }
+
+    // 用户选择覆盖，继续执行
+    console.log('用户选择覆盖文件');
   }
+
+  // 创建目录并写入文件
   mkdirp.sync(dir);
   transformedTemplateFiles.forEach(({ filename, content }) => {
     const filePath = path.resolve(dir, filename);
@@ -228,6 +379,7 @@ export const createTemplate = async (_dir = cwd, templateName = '', options: Cre
     mkdirp.sync(path.dirname(filePath));
     fs.writeFileSync(filePath, content);
   });
+
   console.log('Done');
   return {
     success: true,

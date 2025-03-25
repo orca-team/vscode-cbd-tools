@@ -1,0 +1,5 @@
+{
+  "type": "component(with prefix-classnames)",
+  "order": 9,
+  "description": "函数组件（基于 prefix-classnames）"
+}
