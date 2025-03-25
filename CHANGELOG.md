@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.1.0
+
+### Minor Changes
+
+- 7ca260c: feat: 新增内置模板&自定义模板文件功能
+
 ## 2.0.4
 
 ### Patch Changes
