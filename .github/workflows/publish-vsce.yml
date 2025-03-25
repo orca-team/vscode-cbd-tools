@@ -40,6 +40,7 @@ jobs:
         uses: changesets/action@master
         with:
           publish: pnpm run pub
+          title: 'Release v${{ steps.changesets.outputs.version }}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VSCODE_MARKETPLACE_TOKEN: ${{ secrets.VSCODE_MARKETPLACE_TOKEN }}
