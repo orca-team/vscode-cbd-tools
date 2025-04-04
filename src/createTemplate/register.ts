@@ -71,6 +71,11 @@ export function register(context: vscode.ExtensionContext) {
           placeHolder: '请输入子目录名称，输入空则在当前目录创建',
         });
 
+        // 如果用户按下 Esc 键取消输入，name 将为 undefined，此时应终止创建过程
+        if (name === undefined) {
+          return;
+        }
+
         const templateName = item.name;
         const templateRootDir = item.rootDir;
 
