@@ -2,7 +2,7 @@
   "name": "cbd-tools",
   "displayName": "cbd-tools",
   "description": "Toolkit for cbd-framework",
-  "version": "2.0.4",
+  "version": "2.1.0",
   "engines": {
     "vscode": "^1.42.0"
   },
@@ -67,7 +67,7 @@
   "scripts": {
     "c": "changeset",
     "vscode:prepublish": "npm run esbuild-base -- --minify",
-    "vscode:package": "vsce package",
+    "vscode:package": "vsce package --no-dependencies",
     "deploy": "vsce publish --no-dependencies  -p $VSCODE_MARKETPLACE_TOKEN",
     "pub": "ts-node scripts/publish.ts",
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
