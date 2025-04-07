@@ -9,25 +9,29 @@ export function quickJumpByExtensions(currentFile: string, extensions: string[])
   const dirPath = currentFile.replace(/\/[^/]*$/, '');
   const fileName = currentFile.replace(/^.*[\\/]/, '');
 
-  for (const extension of extensions) {
-    const parts = fileName.split('.');
-
-    const possibleFileNames: string[] = [];
-    if (parts.length === 2) {
-      // 只有一个 dot
+  const parts = fileName.split('.');
+  const possibleFileNames: string[] = [];
+  if (parts.length === 2) {
+    // 只有一个 dot
+    for (const extension of extensions) {
       possibleFileNames.push(`${parts[0]}${extension}`);
-    } else {
-      // 有多个 dot，但我只尝试替换两次
+    }
+  } else {
+    // 有多个 dot，但我只尝试替换两次
+    for (const extension of extensions) {
       possibleFileNames.push(parts.slice(0, -2).join('.') + extension);
-      possibleFileNames.push(parts.slice(0, -1).join('.') + extension);
     }
 
-    // 检查所有可能的文件名
-    for (const newFileName of possibleFileNames) {
-      const newFilePath = `${dirPath}/${newFileName}`;
-      if (existsSync(newFilePath)) {
-        return newFilePath;
-      }
+    for (const extension of extensions) {
+      possibleFileNames.push(parts.slice(0, -1).join('.') + extension);
+    }
+  }
+
+  // 检查所有可能的文件名
+  for (const newFileName of possibleFileNames) {
+    const newFilePath = `${dirPath}/${newFileName}`;
+    if (existsSync(newFilePath)) {
+      return newFilePath;
     }
   }
 
