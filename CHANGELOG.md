@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.1.4
+
+### Patch Changes
+
+- 1f8ad4a: fix: quickJump 无法从 .d.ts 跳转至 .js 文件的问题
+
 ## 2.1.3
 
 ### Patch Changes
