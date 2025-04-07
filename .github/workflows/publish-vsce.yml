@@ -52,13 +52,13 @@ jobs:
       # 从 package.json 获取版本号
       - name: Get Version
         id: get-version
-        if: steps.changesets.outputs.published != 'true'
+        if: steps.changesets.outputs.customPublished != 'true'
         run: |
           echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
 
       # 更新 PR 标题为最新版本号
       - name: Update PR Title
-        if: steps.changesets.outputs.published != 'true'
+        if: steps.changesets.outputs.customPublished != 'true'
         run: |
           gh pr edit ${{ github.event.pull_request.number }} --title "Release v${{ steps.get-version.outputs.version }}"
         env:

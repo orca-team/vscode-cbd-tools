@@ -37,6 +37,8 @@ async function main() {
     if (stderr) console.error('发布错误:', stderr);
     
     console.log(`版本 ${version} 发布成功！`);
+    // 写入 GitHub Actions outputs
+    fs.writeFileSync(process.env.GITHUB_OUTPUT || '', 'customPublished=true\n', { flag: 'a' });
   } catch (error) {
     console.error('发布过程中出现错误:', error);
     process.exit(1);
