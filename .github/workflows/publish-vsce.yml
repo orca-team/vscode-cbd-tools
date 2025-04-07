@@ -46,7 +46,7 @@ jobs:
 
       # 更新 PR 标题为最新版本号
       - name: Update PR Title
-        if: steps.changesets.outputs.published == 'true'
+        if: steps.changesets.outputs.published != 'true'
         run: |
           gh pr edit ${{ github.event.pull_request.number }} --title "Release v${{ steps.changesets.outputs.publishedPackages[0].version }}"
         env:
