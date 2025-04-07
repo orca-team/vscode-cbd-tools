@@ -44,6 +44,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VSCODE_MARKETPLACE_TOKEN: ${{ secrets.VSCODE_MARKETPLACE_TOKEN }}
 
+      # 打印 changesets 输出
+      - name: Print Changesets Outputs
+        run: |
+          echo "published: ${{ steps.changesets.outputs.published }}"
+          echo "publishedPackages: ${{ steps.changesets.outputs.publishedPackages }}"
       # 从 package.json 获取版本号
       - name: Get Version
         id: get-version
