@@ -35,12 +35,17 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
 
+      # 获取包版本号
+      - name: Get Package Version
+        id: package-version
+        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+
       - name: Create Release Pull Request or Publish
         id: changesets
         uses: changesets/action@master
         with:
           publish: pnpm run pub
-          title: 'Release v${{ steps.changesets.outputs.version }}'
+          title: 'Release v${{ steps.package-version.outputs.version }}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VSCODE_MARKETPLACE_TOKEN: ${{ secrets.VSCODE_MARKETPLACE_TOKEN }}
