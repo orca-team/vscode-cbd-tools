@@ -18,6 +18,7 @@
 	},
 	"include": [
 		"src",
+		"vitest.config.ts",
 		".eslintrc.js"
 	],
 	"typeRoots": [

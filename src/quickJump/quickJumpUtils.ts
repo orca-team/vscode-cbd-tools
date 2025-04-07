@@ -18,8 +18,8 @@ export function quickJumpByExtensions(currentFile: string, extensions: string[])
       possibleFileNames.push(`${parts[0]}${extension}`);
     } else {
       // 有多个 dot，但我只尝试替换两次
-      possibleFileNames.push(parts.slice(0, -1).join('.') + extension);
       possibleFileNames.push(parts.slice(0, -2).join('.') + extension);
+      possibleFileNames.push(parts.slice(0, -1).join('.') + extension);
     }
 
     // 检查所有可能的文件名
