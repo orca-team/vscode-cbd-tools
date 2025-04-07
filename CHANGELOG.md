@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.1.1
+
+### Patch Changes
+
+- 5156e04: fix: 修复模板创建中按 Esc 键无法取消创建的问题
+
 ## 2.1.0
 
 ### Minor Changes
