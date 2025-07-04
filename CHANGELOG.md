@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.1.5
+
+### Patch Changes
+
+- a46bc68: fix: quickjump failed on windows
+
 ## 2.1.4
 
 ### Patch Changes
