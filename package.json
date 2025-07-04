@@ -4,7 +4,7 @@
   "description": "Toolkit for cbd-framework",
   "version": "2.1.4",
   "engines": {
-    "vscode": "^1.42.0"
+    "vscode": "^1.74.0"
   },
   "icon": "assets/logo.png",
   "publisher": "kam",
@@ -20,7 +20,8 @@
     "onCommand:cbd-tools.create-template",
     "onCommand:cbd-tools.quick-jump-to-js",
     "onCommand:cbd-tools.quick-jump-to-css",
-    "onCommand:cbd-tools.quick-jump-to-vue"
+    "onCommand:cbd-tools.quick-jump-to-vue",
+    "onStartupFinished"
   ],
   "contributes": {
     "commands": [

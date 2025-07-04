@@ -1,4 +1,5 @@
 import { existsSync } from 'fs';
+import { basename, dirname } from 'path';
 
 /**
  * 根据当前文件名称，替换文件后缀，如果文件存在，则返回文件路径，否则返回空字符串
@@ -6,8 +7,8 @@ import { existsSync } from 'fs';
  * @param extensions 后缀名称
  */
 export function quickJumpByExtensions(currentFile: string, extensions: string[]): string {
-  const dirPath = currentFile.replace(/\/[^/]*$/, '');
-  const fileName = currentFile.replace(/^.*[\\/]/, '');
+  const dirPath = dirname(currentFile);
+  const fileName = basename(currentFile);
 
   const parts = fileName.split('.');
   const possibleFileNames: string[] = [];
