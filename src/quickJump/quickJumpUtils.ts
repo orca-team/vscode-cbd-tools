@@ -44,9 +44,9 @@ export function quickJumpToJs(currentFile: string): string {
 }
 
 export function quickJumpToCss(currentFile: string): string {
-  return quickJumpByExtensions(currentFile, ['.less', '.module.less', '.scss', '.module.scss', '.css']);
+  return quickJumpByExtensions(currentFile, ['.less', '.module.less', '.scss', '.module.scss', '.css', '.module.css']);
 }
 
 export function quickJumpToVue(currentFile: string): string {
-  return quickJumpByExtensions(currentFile, ['.vue']);
+  return quickJumpByExtensions(currentFile, ['.vue', '.html']);
 }
