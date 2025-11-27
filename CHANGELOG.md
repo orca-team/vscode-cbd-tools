@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.1.6
+
+### Patch Changes
+
+- a72d96a: feat: add .module.css support
+
 ## 2.1.5
 
 ### Patch Changes

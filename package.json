@@ -2,7 +2,7 @@
   "name": "cbd-tools",
   "displayName": "cbd-tools",
   "description": "Toolkit for cbd-framework",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "engines": {
     "vscode": "^1.74.0"
   },
