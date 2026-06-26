@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { register as registerCreateTemplate } from './createTemplate/register';
 import { register as registerQuickJump } from './quickJump/register';
+import { register as registerToggleBak } from './toggleBak/register';
 
 export function activate(context: vscode.ExtensionContext) {
   console.log('Congratulations, your extension \'cbd-tools\' is now active!');
@@ -9,6 +10,8 @@ export function activate(context: vscode.ExtensionContext) {
   registerCreateTemplate(context);
   // 注册命令：快速跳转
   registerQuickJump(context);
+  // 注册命令：切换 .bak 后缀
+  registerToggleBak(context);
 }
 
 // this method is called when your extension is deactivated
