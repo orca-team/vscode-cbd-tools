@@ -21,6 +21,7 @@
     "onCommand:cbd-tools.quick-jump-to-js",
     "onCommand:cbd-tools.quick-jump-to-css",
     "onCommand:cbd-tools.quick-jump-to-vue",
+    "onCommand:cbd-tools.toggle-bak-extension",
     "onStartupFinished"
   ],
   "contributes": {
@@ -40,6 +41,10 @@
       {
         "command": "cbd-tools.quick-jump-to-vue",
         "title": "快速跳转至 VUE 文件"
+      },
+      {
+        "command": "cbd-tools.toggle-bak-extension",
+        "title": "Toggle Bak Extension"
       }
     ],
     "menus": {
@@ -61,6 +66,12 @@
         "command": "cbd-tools.quick-jump-to-css",
         "key": "ctrl+k ctrl+l",
         "mac": "cmd+k cmd+l",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "cbd-tools.toggle-bak-extension",
+        "key": "ctrl+shift+alt+/",
+        "mac": "ctrl+shift+cmd+/",
         "when": "editorTextFocus"
       }
     ]
