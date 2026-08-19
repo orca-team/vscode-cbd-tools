@@ -1,5 +1,20 @@
 # Change Log
 
+## 2.2.0
+
+### Minor Changes
+
+- feat: 新增 quick-jump-to-index 命令，支持跳转到当前目录或外层目录的 index 文件
+
+  - 新命令 `cbd-tools.quick-jump-to-index`，从当前文件所在目录开始向上查找 index 文件
+  - 当前文件为 index 时，从父级目录开始查找
+  - 查找范围限制在当前工作区根目录内
+
+- 1ec0cf4: feat: 新增 toggle-bak-extension 命令，支持快速切换当前文件的 .bak 后缀
+
+  - 新命令 `cbd-tools.toggle-bak-extension`，在当前编辑器文件上添加/移除 `.bak` 后缀
+  - 默认快捷键：Mac `ctrl+shift+cmd+/`，Windows/Linux `ctrl+shift+alt+/`
+
 ## 2.1.6
 
 ### Patch Changes

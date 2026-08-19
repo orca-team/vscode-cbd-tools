@@ -1,6 +1,6 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest';
 import * as fs from 'fs';
-import { quickJumpByExtensions, quickJumpToJs, quickJumpToCss, quickJumpToVue } from '../quickJumpUtils';
+import { quickJumpByExtensions, quickJumpToJs, quickJumpToCss, quickJumpToVue, quickJumpToIndex } from '../quickJumpUtils';
 
 vi.mock('fs', () => ({
   existsSync: vi.fn(),
@@ -91,6 +91,41 @@ describe('quickJumpUtils', () => {
       const result = quickJumpToVue('/path/to/file.ts');
       expect(result).toBe('/path/to/file.vue');
       expect(existsSyncMock).toHaveBeenCalledWith('/path/to/file.vue');
+    });
+  });
+
+  describe('quickJumpToIndex', () => {
+    it('should jump to current directory index when current file is not index', () => {
+      const existsSyncMock = vi.mocked(fs.existsSync);
+      existsSyncMock.mockReturnValueOnce(true);
+
+      const result = quickJumpToIndex('/path/to/src/components/Button/Button.tsx', '/path/to/src');
+      expect(result).toBe('/path/to/src/components/Button/index.ts');
+      expect(existsSyncMock).toHaveBeenCalledWith('/path/to/src/components/Button/index.ts');
+    });
+
+    it('should jump to parent directory index when current file is index', () => {
+      const existsSyncMock = vi.mocked(fs.existsSync);
+      existsSyncMock
+        .mockReturnValueOnce(false)
+        .mockReturnValueOnce(true);
+
+      const result = quickJumpToIndex('/path/to/src/components/Button/index.tsx', '/path/to/src');
+      expect(result).toBe('/path/to/src/components/index.tsx');
+      expect(existsSyncMock).toHaveBeenCalledWith('/path/to/src/components/index.ts');
+      expect(existsSyncMock).toHaveBeenCalledWith('/path/to/src/components/index.tsx');
+    });
+
+    it('should keep searching parent directories until workspace root', () => {
+      const existsSyncMock = vi.mocked(fs.existsSync);
+      existsSyncMock.mockReturnValue(false);
+
+      const result = quickJumpToIndex('/path/to/src/components/Button/Button.tsx', '/path/to/src');
+      expect(result).toBe('');
+      expect(existsSyncMock).toHaveBeenCalledWith('/path/to/src/components/Button/index.ts');
+      expect(existsSyncMock).toHaveBeenCalledWith('/path/to/src/components/index.ts');
+      expect(existsSyncMock).toHaveBeenCalledWith('/path/to/src/index.ts');
+      expect(existsSyncMock).not.toHaveBeenCalledWith('/path/to/index.ts');
     });
   });
 });

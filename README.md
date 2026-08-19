@@ -65,11 +65,12 @@
 
 ### Feature 3 快速跳转
 
-预设了 3 种快速跳转命令，可以快速跳转到同名的 CSS/LESS 等样式文件、JS/TS 等脚本文件、vue 文件。
+预设了多种快速跳转命令，可以快速跳转到同名的 CSS/LESS 等样式文件、JS/TS 等脚本文件、vue 文件，以及当前目录或外层目录的 index 文件。
 注：默认快捷键设置的是二级快捷键，即先按下 `Ctrl+K`，再立刻按下 `Ctrl+J`。
 
 | 命令 ID                       | 功能                                 | 默认快捷键              |
 | ----------------------------- | ------------------------------------ | ----------------------- |
-| `cbd-tools.quick-jump-to-css` | 快速跳转到同名的 CSS/LESS 等样式文件 | `Ctrl/Cmd+K Ctrl/Cmd+L` |
-| `cbd-tools.quick-jump-to-js`  | 快速跳转到同名的 JS/TS 等脚本文件    | `Ctrl/Cmd+K Ctrl/Cmd+J` |
-| `cbd-tools.quick-jump-to-vue` | 快速跳转到同名的 vue 文件            | -                       |
+| `cbd-tools.quick-jump-to-css`   | 快速跳转到同名的 CSS/LESS 等样式文件 | `Ctrl/Cmd+K Ctrl/Cmd+L` |
+| `cbd-tools.quick-jump-to-js`    | 快速跳转到同名的 JS/TS 等脚本文件    | `Ctrl/Cmd+K Ctrl/Cmd+J` |
+| `cbd-tools.quick-jump-to-vue`   | 快速跳转到同名的 vue 文件            | -                       |
+| `cbd-tools.quick-jump-to-index` | 快速跳转到当前目录或外层目录的 index 文件 | -                    |

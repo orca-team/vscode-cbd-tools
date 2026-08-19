@@ -1,5 +1,5 @@
 import { existsSync } from 'fs';
-import { basename, dirname } from 'path';
+import { basename, dirname, isAbsolute, relative, resolve } from 'path';
 
 /**
  * 根据当前文件名称，替换文件后缀，如果文件存在，则返回文件路径，否则返回空字符串
@@ -49,4 +49,34 @@ export function quickJumpToCss(currentFile: string): string {
 
 export function quickJumpToVue(currentFile: string): string {
   return quickJumpByExtensions(currentFile, ['.vue', '.html']);
+}
+
+export function quickJumpToIndex(currentFile: string, rootPath: string): string {
+  const indexFileNames = ['index.ts', 'index.tsx', 'index.js', 'index.jsx', 'index.vue'];
+  const root = resolve(rootPath);
+  let currentDir = dirname(currentFile);
+  const fileName = basename(currentFile).toLowerCase();
+
+  if (indexFileNames.includes(fileName)) {
+    currentDir = dirname(currentDir);
+  }
+
+  let relativePath = relative(root, currentDir);
+  while (!relativePath.startsWith('..') && !isAbsolute(relativePath)) {
+    for (const indexFileName of indexFileNames) {
+      const indexFilePath = `${currentDir}/${indexFileName}`;
+      if (existsSync(indexFilePath)) {
+        return indexFilePath;
+      }
+    }
+
+    if (resolve(currentDir) === root) {
+      break;
+    }
+
+    currentDir = dirname(currentDir);
+    relativePath = relative(root, currentDir);
+  }
+
+  return '';
 }

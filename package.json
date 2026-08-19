@@ -2,7 +2,7 @@
   "name": "cbd-tools",
   "displayName": "cbd-tools",
   "description": "Toolkit for cbd-framework",
-  "version": "2.1.6",
+  "version": "2.2.0",
   "engines": {
     "vscode": "^1.74.0"
   },
@@ -21,6 +21,7 @@
     "onCommand:cbd-tools.quick-jump-to-js",
     "onCommand:cbd-tools.quick-jump-to-css",
     "onCommand:cbd-tools.quick-jump-to-vue",
+    "onCommand:cbd-tools.quick-jump-to-index",
     "onCommand:cbd-tools.toggle-bak-extension",
     "onStartupFinished"
   ],
@@ -41,6 +42,10 @@
       {
         "command": "cbd-tools.quick-jump-to-vue",
         "title": "快速跳转至 VUE 文件"
+      },
+      {
+        "command": "cbd-tools.quick-jump-to-index",
+        "title": "快速跳转至外层 Index 文件"
       },
       {
         "command": "cbd-tools.toggle-bak-extension",
